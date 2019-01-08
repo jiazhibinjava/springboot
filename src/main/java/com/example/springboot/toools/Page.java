@@ -31,8 +31,8 @@ public class Page {
      */
     public Page(String sql,int currentPage,int numPerPage,JdbcTemplate jdbcTemplate){
         if(jdbcTemplate == null){
-            throw  new IllegalArgumentException("Page.jdbcTemplate is null");
-        }else if (sql == null || sql.equals("")){
+            throw new IllegalArgumentException("Page.jdbcTemplate is null");
+        }else if(sql == null || sql.equals("")){
             throw new IllegalArgumentException("Page.sql is empty");
         }
         //设置每页显示记录数
@@ -40,7 +40,7 @@ public class Page {
         //设置要显示的页数
         setCurrentPage(currentPage);
         //计算总记录数
-        StringBuffer totalSQL = new StringBuffer(" SELECT count(*) FROM( ");
+        StringBuffer totalSQL = new StringBuffer(" SELECT count(*) FROM ( ");
         totalSQL.append(sql);
         totalSQL.append(" ) totalTable ");
         //总记录数
@@ -55,7 +55,7 @@ public class Page {
         //使用mysql时直接使用limits
         StringBuffer paginationSQL = new StringBuffer();
         paginationSQL.append(sql);
-        paginationSQL.append(" limit "+ startIndex + "," + lastIndex );
+        paginationSQL.append(" limit " + startIndex + "," + lastIndex);
         //装入结果集
         setResultList(jdbcTemplate.queryForList(paginationSQL.toString()));
     }

@@ -21,12 +21,12 @@ public class LearnServiceImpl implements LearnService {
 
     @Override
     public int update(LearnResouce learnResouce) {
-        return this.update(learnResouce);
+        return this.learnDao.updata(learnResouce);
     }
 
     @Override
     public int deleteByIds(String id) {
-        return this.deleteByIds(id);
+        return this.learnDao.deleteByIds(id);
     }
 
     @Override

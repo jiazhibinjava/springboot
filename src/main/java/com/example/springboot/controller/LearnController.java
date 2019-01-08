@@ -21,13 +21,15 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
+//@RestController
 @RequestMapping("/learn")
 public class LearnController {
     @Autowired
     private LearnService learnService;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public  String learn(){
+    @RequestMapping("")
+    public String learn(){
         return "learn-resource";
     }
 
@@ -35,7 +37,8 @@ public class LearnController {
     @ResponseBody
     public void queryLearnList(HttpServletRequest request, HttpServletResponse response){
         String page = request.getParameter("page");//取得当前页面，注意这是jqgrid自身的参数
-        String rows = request.getParameter("row");// 取得每页显示行数，,注意这是jqgrid自身的参数
+        String rows = request.getParameter("rows");// 取得每页显示行数，,注意这是jqgrid自身的参数
+        System.out.println(page+" , "+rows);
         String author = request.getParameter("author");
         String title = request.getParameter("title");
         Map<String,Object> params = new HashMap<String,Object>();

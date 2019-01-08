@@ -39,4 +39,3 @@ public class SpringbootApplication {
 		return dataSource;
 	}
 }
-
