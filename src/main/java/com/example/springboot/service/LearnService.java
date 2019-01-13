@@ -1,15 +1,15 @@
 package com.example.springboot.service;
 
 import com.example.springboot.pojo.LearnResouce;
-import com.example.springboot.toools.Page;
 
+import java.util.List;
 import java.util.Map;
 
 public interface LearnService {
 
     int add(LearnResouce learnResouce);
     int update (LearnResouce learnResouce);
-    int deleteByIds(String id);
+    int deleteByIds(String[] ids);
     LearnResouce queryLearnResouceById(Long id);
-    Page queryLearnResouceList (Map<String,Object> params);
+    List<LearnResouce> queryLearnResouceList(Map<String, Object> params);
 }

@@ -1,41 +1,45 @@
 package com.example.springboot.service.impl;
 
-import com.example.springboot.dao.LearnDao;
+import com.example.springboot.dao.LearnMapper;
 import com.example.springboot.pojo.LearnResouce;
 import com.example.springboot.service.LearnService;
-import com.example.springboot.toools.Page;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
 public class LearnServiceImpl implements LearnService {
 
     @Autowired
-    LearnDao learnDao;
+    LearnMapper learnMapper;
     @Override
     public int add(LearnResouce learnResouce) {
-        return this.learnDao.add(learnResouce);
+        return this.learnMapper.add(learnResouce);
     }
 
     @Override
     public int update(LearnResouce learnResouce) {
-        return this.learnDao.updata(learnResouce);
+        return this.learnMapper.update(learnResouce);
     }
 
     @Override
-    public int deleteByIds(String id) {
-        return this.learnDao.deleteByIds(id);
+    public int deleteByIds(String[] ids) {
+        return this.learnMapper.deleteByIds(ids);
     }
 
     @Override
     public LearnResouce queryLearnResouceById(Long id) {
-        return this.learnDao.queryLearnResouceById(id);
+        return this.learnMapper.queryLearnResouceById(id);
     }
 
     @Override
-    public Page queryLearnResouceList(Map<String, Object> params) {
-        return this.learnDao.queryLearnResouceList(params);
+    public List<LearnResouce> queryLearnResouceList(Map<String, Object> params) {
+        PageHelper.startPage(Integer.parseInt(params.get("page").toString()), Integer.parseInt(params.get("rows").toString()));
+        return this.learnMapper.queryLearnResouceList(params);
     }
+
+
 }

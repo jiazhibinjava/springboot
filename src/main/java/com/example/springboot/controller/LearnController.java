@@ -3,9 +3,9 @@ package com.example.springboot.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.example.springboot.pojo.LearnResouce;
 import com.example.springboot.service.LearnService;
-import com.example.springboot.toools.Page;
 import com.example.springboot.toools.ServletUtil;
 import com.example.springboot.toools.StringUtil;
+import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,6 @@ public class LearnController {
     public void queryLearnList(HttpServletRequest request, HttpServletResponse response){
         String page = request.getParameter("page");//取得当前页面，注意这是jqgrid自身的参数
         String rows = request.getParameter("rows");// 取得每页显示行数，,注意这是jqgrid自身的参数
-        System.out.println(page+" , "+rows);
         String author = request.getParameter("author");
         String title = request.getParameter("title");
         Map<String,Object> params = new HashMap<String,Object>();
@@ -46,12 +45,12 @@ public class LearnController {
         params.put("rows", rows);
         params.put("author", author);
         params.put("title", title);
-        Page pageObj = learnService.queryLearnResouceList(params);
-        List<Map<String,Object>> learnList = pageObj.getResultList();
+        List<LearnResouce> learnList=learnService.queryLearnResouceList(params);
+        PageInfo<LearnResouce> pageInfo =new PageInfo<LearnResouce>(learnList);
         JSONObject jo=new JSONObject();
         jo.put("rows",learnList);
-        jo.put("total",pageObj.getTotalPages());
-        jo.put("records",pageObj.getTotalRows());
+        jo.put("total", pageInfo.getPages());//总页数
+        jo.put("records",pageInfo.getTotal());//查询出的总记录数
         ServletUtil.createSuccessResponse(200, jo, response);
     }
 
@@ -156,7 +155,7 @@ public class LearnController {
         System.out.println("ids==="+ids);
         JSONObject result = new JSONObject();
         //删除操作
-        int index = learnService.deleteByIds(ids);
+        int index = learnService.deleteByIds(ids.split(","));
         if(index>0){
             result.put("message","教程信息删除成功!");
             result.put("flag",true);
